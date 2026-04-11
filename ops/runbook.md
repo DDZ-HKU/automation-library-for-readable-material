@@ -19,6 +19,17 @@ At the start of any autonomous run, read in this order:
 6. if verification fails, keep working
 7. if verification passes, continue unless a natural handoff condition is reached
 
+## Anti-Stall Rules
+
+- a progress report is not a stop condition
+- finishing one subtask does not justify pausing if the phase is still active
+- if no blocker exists, move directly to the next executable work item
+- if an interim update is emitted, the next action in the same session should be execution, not another status report
+- only stop for:
+  - `phase-complete`
+  - `decision-required`
+  - `blocked`
+
 ## Verification Rule
 
 Verification is mandatory before handoff.
@@ -57,3 +68,4 @@ Allowed values:
 - stop after every subtask
 - claim completion before verification
 - continue into a new ambiguous phase without writing a handoff
+- replace execution with progress narration when executable work still exists

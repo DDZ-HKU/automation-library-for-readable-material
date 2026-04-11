@@ -19,6 +19,8 @@ Work counts as valuable when it does at least one of these:
 - advances the current workboard phase
 - leaves the repository in a more verifiable state
 
+Status summaries by themselves do not count as valuable work.
+
 ## Hard Boundaries
 
 - do not mark work complete without verification

@@ -23,6 +23,9 @@ Before doing autonomous work, read:
 - use `ops/workboard.md` as the current work source
 - follow `ops/runbook.md` for continue vs stop decisions
 - do not stop after each small completion
+- do not treat a status summary as a valid stop point
+- after an interim progress update, continue execution immediately unless a blocker or natural handoff condition has been reached
+- do not ask for permission to continue when the current phase is still active and no risk boundary has been crossed
 - verify work before phase handoff
 - write or update `ops/handoff.md` only at a natural handoff point or forced early handoff
 
@@ -39,3 +42,4 @@ Stop only when:
 - invent a new stop condition
 - skip verification
 - treat `ops/handoff.md` as a diary
+- replace execution with repeated progress narration

@@ -370,3 +370,31 @@
 - 更新 `wiki/notes/cases/vision-architecture-branching-points.md`
 - 更新 `wiki/overview.md`
 - 更新 `wiki/INDEX.md`
+
+## [2026-04-11] ingest | ToolLLM: Facilitating Large Language Models to Master 16000+ Real-World APIs
+
+处理 `raw/sources/2307.16789v2/2307.16789v2.md`，将 ToolLLM 论文纳入知识库：
+
+- 新建资料摘要页 `wiki/sources/toolllm-facilitating-large-language-models-to-master-16000-real-world-apis.md`
+- 新建概念页 `wiki/concepts/tool-use-in-llms.md`
+- 更新 `wiki/overview.md`
+- 更新 `wiki/INDEX.md`
+
+## [2026-04-11] refactor | harden-autonomous-run-against-status-stalls
+
+针对自主运行层容易在“状态汇报点”停住的问题，强化自动运行协议：
+
+- 更新上游仓库 `autonomous-handoff-ops` 中的 `kb-autonomous-run` skill
+- 更新上游模板 `ops/runbook.md` 与 `ops/charter.md`
+- 明确规定“进度汇报不是停止条件”
+- 明确规定“若无阻塞或自然交接点，状态更新后必须继续执行”
+- 同步更新当前知识库的 `ops/` 层与项目本地 `kb-autonomous-run`
+
+## [2026-04-11] ingest | Large Language Models as Tool Makers
+
+处理 `raw/sources/2305.17126v2/2305.17126v2.md`，将 LATM 论文纳入知识库：
+
+- 新建资料摘要页 `wiki/sources/large-language-models-as-tool-makers.md`
+- 更新概念页 `wiki/concepts/tool-use-in-llms.md`
+- 更新 `wiki/overview.md`
+- 更新 `wiki/INDEX.md`
