@@ -1,0 +1,53 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+if [ "$#" -ne 1 ]; then
+  echo "Usage: scripts/phase-status <target-project>" >&2
+  exit 1
+fi
+
+TARGET="$1"
+WORKBOARD="$TARGET/ops/workboard.md"
+
+if [ ! -f "$WORKBOARD" ]; then
+  echo "Missing workboard: $WORKBOARD" >&2
+  exit 1
+fi
+
+phase=$(awk '
+  $0 == "## Current Phase" {found=1; next}
+  found && NF {
+    gsub(/`/, "")
+    print
+    exit
+  }
+' "$WORKBOARD")
+goal=$(awk '
+  $0 == "## Phase Goal" {found=1; next}
+  found && NF {
+    print
+    exit
+  }
+' "$WORKBOARD")
+
+echo "Current phase: $phase"
+echo "Phase goal: $goal"
+echo
+
+awk '
+  /^### / {title=substr($0,5); in_v=0; next}
+  /^- Verification method:/ {in_v=1; next}
+  in_v && /^  - `/ {
+    cmd=$0
+    sub(/^  - `/,"",cmd)
+    sub(/`$/,"",cmd)
+    print title "\t" cmd
+    in_v=0
+  }
+' "$WORKBOARD" | while IFS=$'\t' read -r title cmd; do
+  if bash -lc 'cd "$1" && eval "$2"' _ "$TARGET" "$cmd" >/dev/null 2>&1; then
+    echo "[PASS] $title"
+  else
+    echo "[FAIL] $title"
+  fi
+done

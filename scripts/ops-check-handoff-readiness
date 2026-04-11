@@ -1,0 +1,53 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+if [ "$#" -ne 1 ]; then
+  echo "Usage: scripts/check-handoff-readiness <target-project>" >&2
+  exit 1
+fi
+
+TARGET="$1"
+WORKBOARD="$TARGET/ops/workboard.md"
+HANDOFF="$TARGET/ops/handoff.md"
+
+if [ ! -f "$WORKBOARD" ] || [ ! -f "$HANDOFF" ]; then
+  echo "Missing ops files." >&2
+  exit 1
+fi
+
+handoff_type=$(awk '
+  $0 == "## Type" {found=1; next}
+  found && NF {
+    gsub(/`/, "")
+    print
+    exit
+  }
+' "$HANDOFF")
+
+if [ "$handoff_type" = "decision-required" ] || [ "$handoff_type" = "blocked" ]; then
+  echo "$handoff_type"
+  exit 0
+fi
+
+all_pass=1
+while IFS= read -r cmd; do
+  if ! bash -lc 'cd "$1" && eval "$2"' _ "$TARGET" "$cmd" >/dev/null 2>&1; then
+    all_pass=0
+    break
+  fi
+done < <(awk '
+  /^### / {title=substr($0,5); in_v=0; next}
+  /^- Verification method:/ {in_v=1; next}
+  in_v && /^  - `/ {
+    cmd=$0
+    sub(/^  - `/,"",cmd)
+    sub(/`$/,"",cmd)
+    print cmd
+    in_v=0
+  }
+' "$WORKBOARD")
+if [ "$all_pass" -eq 1 ]; then
+  echo "phase-complete"
+else
+  echo "continue"
+fi

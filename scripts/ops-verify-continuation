@@ -1,0 +1,60 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+if [ "$#" -ne 1 ]; then
+  echo "Usage: scripts/verify-continuation <target-project>" >&2
+  exit 1
+fi
+
+TARGET="$1"
+WORKBOARD="$TARGET/ops/workboard.md"
+HANDOFF="$TARGET/ops/handoff.md"
+
+if [ ! -f "$WORKBOARD" ] || [ ! -f "$HANDOFF" ]; then
+  echo "Missing ops files." >&2
+  exit 1
+fi
+
+handoff_type=$(awk '
+  $0 == "## Type" {found=1; next}
+  found && NF {
+    gsub(/`/, "")
+    print
+    exit
+  }
+' "$HANDOFF")
+
+case "$handoff_type" in
+  in-progress|phase-complete|decision-required|blocked) ;;
+  *)
+    echo "Invalid handoff type: $handoff_type" >&2
+    exit 1
+    ;;
+esac
+
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+SCRIPT_NAME="$(basename "${BASH_SOURCE[0]}")"
+CHECK_SCRIPT="check-handoff-readiness"
+
+case "$SCRIPT_NAME" in
+  ops-verify-continuation) CHECK_SCRIPT="ops-check-handoff-readiness" ;;
+esac
+
+readiness=$(bash "$SCRIPT_DIR/$CHECK_SCRIPT" "$TARGET")
+
+if [ "$handoff_type" = "phase-complete" ] && [ "$readiness" != "phase-complete" ]; then
+  echo "Handoff claims phase-complete, but verification is incomplete." >&2
+  exit 1
+fi
+
+if [ "$handoff_type" = "in-progress" ] && [ "$readiness" = "phase-complete" ]; then
+  echo "All workboard checks pass, but handoff is still in-progress." >&2
+  exit 1
+fi
+
+if [ "$handoff_type" = "decision-required" ] || [ "$handoff_type" = "blocked" ]; then
+  rg -n "^## Open Risks" "$HANDOFF" >/dev/null
+  rg -n "^## Restart Point" "$HANDOFF" >/dev/null
+fi
+
+echo "Continuation verification passed for: $TARGET"
