@@ -8,6 +8,7 @@ At the start of any autonomous run, read in this order:
 2. `ops/workboard.md`
 3. latest `ops/handoff.md`
 4. `ops/runbook.md`
+5. run `scripts/ops-phase-status <project-root>`
 
 ## Default Execution Loop
 
@@ -17,7 +18,21 @@ At the start of any autonomous run, read in this order:
 4. check whether the work item's verification method can run
 5. run verification
 6. if verification fails, keep working
-7. if verification passes, continue unless a natural handoff condition is reached
+7. run `scripts/ops-check-handoff-readiness <project-root>`
+8. if verification passes, continue unless a natural handoff condition is reached
+
+## Required Script Checkpoints
+
+The following checkpoints are mandatory when the scripts exist:
+
+- run start:
+  - `scripts/ops-phase-status <project-root>`
+- after a meaningful execution batch:
+  - `scripts/ops-check-handoff-readiness <project-root>`
+- before any claimed stop:
+  - `scripts/ops-verify-continuation <project-root>`
+
+If these scripts disagree with the model's instinct to stop, the scripts win.
 
 ## Anti-Stall Rules
 
@@ -69,3 +84,4 @@ Allowed values:
 - claim completion before verification
 - continue into a new ambiguous phase without writing a handoff
 - replace execution with progress narration when executable work still exists
+- skip required continuation scripts when they exist in the project
