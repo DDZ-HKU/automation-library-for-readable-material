@@ -1,0 +1,108 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+
+usage() {
+  cat <<'EOF'
+Usage:
+  scripts/kb files <pattern>
+  scripts/kb search <pattern>
+  scripts/kb index <pattern>
+  scripts/kb outputs <pattern>
+  scripts/kb related <page-path>
+
+Commands:
+  files    Search file paths under wiki/ and outputs/
+  search   Search file contents under wiki/ and outputs/
+  index    Search wiki/INDEX.md only
+  outputs  Search outputs/ only
+  related  Find pages and outputs that reference a given page
+EOF
+}
+
+require_pattern() {
+  if [ "$#" -lt 1 ]; then
+    echo "Missing search pattern." >&2
+    usage >&2
+    exit 1
+  fi
+}
+
+require_path() {
+  if [ "$#" -lt 1 ]; then
+    echo "Missing page path." >&2
+    usage >&2
+    exit 1
+  fi
+}
+
+if ! command -v rg >/dev/null 2>&1; then
+  echo "ripgrep (rg) is required." >&2
+  exit 1
+fi
+
+if [ "$#" -lt 1 ]; then
+  usage >&2
+  exit 1
+fi
+
+cmd="$1"
+shift
+
+case "$cmd" in
+  files)
+    require_pattern "$@"
+    rg --files "$ROOT_DIR/wiki" "$ROOT_DIR/outputs" | rg -i -- "$1"
+    ;;
+  search)
+    require_pattern "$@"
+    printf '## INDEX\n'
+    rg -n -i -- "$1" "$ROOT_DIR/wiki/INDEX.md" || true
+    printf '\n## CONCEPTS\n'
+    rg -n -i -- "$1" "$ROOT_DIR/wiki/concepts" || true
+    printf '\n## SOURCES\n'
+    rg -n -i -- "$1" "$ROOT_DIR/wiki/sources" || true
+    printf '\n## NOTES\n'
+    rg -n -i -- "$1" "$ROOT_DIR/wiki/notes" || true
+    printf '\n## OUTPUTS\n'
+    rg -n -i -- "$1" "$ROOT_DIR/outputs" || true
+    ;;
+  index)
+    require_pattern "$@"
+    rg -n -i -- "$1" "$ROOT_DIR/wiki/INDEX.md"
+    ;;
+  outputs)
+    require_pattern "$@"
+    rg -n -i -- "$1" "$ROOT_DIR/outputs"
+    ;;
+  related)
+    require_path "$@"
+    target="$1"
+    case "$target" in
+      /*) abs_target="$target" ;;
+      *) abs_target="$ROOT_DIR/$target" ;;
+    esac
+
+    if [ ! -f "$abs_target" ]; then
+      echo "Page not found: $target" >&2
+      exit 1
+    fi
+
+    slug="$(basename "$abs_target")"
+    slug="${slug%.md}"
+    rel_target="${abs_target#$ROOT_DIR/}"
+
+    printf '## TARGET\n%s\n' "$rel_target"
+    printf '\n## WIKILINKS\n'
+    rg -n --fixed-strings -- "[[$slug]]" "$ROOT_DIR/wiki" "$ROOT_DIR/outputs" | rg -v --fixed-strings -- "$rel_target" || true
+    printf '\n## PATH REFERENCES\n'
+    rg -n --fixed-strings -- "$slug.md" "$ROOT_DIR/wiki" "$ROOT_DIR/outputs" | rg -v --fixed-strings -- "$rel_target" || true
+    printf '\n## TITLE-LIKE REFERENCES\n'
+    rg -n -i -- "$slug" "$ROOT_DIR/wiki/INDEX.md" "$ROOT_DIR/wiki/notes" "$ROOT_DIR/outputs" | rg -v --fixed-strings -- "$rel_target" || true
+    ;;
+  *)
+    usage >&2
+    exit 1
+    ;;
+esac
