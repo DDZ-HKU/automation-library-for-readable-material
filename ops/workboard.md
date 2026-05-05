@@ -2,57 +2,53 @@
 
 ## Current Phase
 
-`vision-architecture-ingest-and-synthesis`
+`knowledge-base-governance-consolidation`
 
 ## Phase Goal
 
-Process the currently staged vision-architecture PDFs in `raw/inbox/`, compile them into `wiki/`, integrate AlexNet and dilated convolutions into the current branch structure, and stop only when the resulting branch state is verified and naturally ready for handoff.
+Align the repository's entry layer, workflow layer, and autonomous-run layer with the knowledge base's current state, so future autonomous runs start from up-to-date metadata, navigation, and protocol boundaries rather than stale phase context.
 
 ## Work Items
 
-### WB-1 Compile `1511.07122v3` into the knowledge base
+### WB-1 Refresh top-level repository metadata
 
 - Priority: P0
 - Depends on: none
 - Done definition:
-  - `raw/sources/1511.07122v3/1511.07122v3.md` has been interpreted
-  - a source summary exists in `wiki/sources/`
-  - a concept page exists or is updated in `wiki/concepts/`
-  - `wiki/INDEX.md`, `wiki/overview.md`, and `wiki/log.md` reflect the ingestion
+  - `wiki/INDEX.md` top metadata reflects the true latest update date
+  - top-level docs and indices no longer point to stale state
 - Verification method:
-  - `rg -n "1511.07122v3|dilated-convolutions|multi-scale-context-aggregation-by-dilated-convolutions" wiki/INDEX.md wiki/overview.md wiki/log.md wiki/sources wiki/concepts`
+  - `sed -n '1,12p' wiki/INDEX.md`
 
-### WB-2 Compile the AlexNet paper into the knowledge base
+### WB-2 Audit workflow and framework linkage
 
 - Priority: P0
 - Depends on: none
 - Done definition:
-  - the AlexNet PDF in `raw/inbox/` has been converted into `raw/sources/`
-  - a source summary exists in `wiki/sources/`
-  - a concept page exists or is updated in `wiki/concepts/`
-  - the branch position of AlexNet is reflected in `wiki/INDEX.md`, `wiki/overview.md`, and `wiki/log.md`
+  - newly added workflow/framework/case pages are reachable from index or concept/case hubs
+  - no obvious high-value orphan remains in the recent governance and harness additions
 - Verification method:
-  - `rg -n "alexnet|imagenet-classification-with-deep-convolutional-neural-networks|deep-convolutional-neural-networks" wiki/INDEX.md wiki/overview.md wiki/log.md wiki/sources wiki/concepts`
+  - `rg -n "notes/workflows/index.md|how-to-route-knowledge-queries|how-to-manage-partially-promoted-outputs|how-to-classify-repo-rules|how-to-apply-ops-protocol|agent-harness-engineering" wiki/INDEX.md wiki/notes wiki/concepts`
 
-### WB-3 Synthesize the dense-prediction architecture branch
+### WB-3 Reconcile entry-layer rule boundaries
 
 - Priority: P0
-- Depends on: WB-1
+- Depends on: WB-1, WB-2
 - Done definition:
-  - at least one reusable output exists explaining the branch significance
-  - at least one `wiki/notes/cases/` page exists that captures the transferable judgment
+  - `README.md`, `AGENTS.md`, and `kb-wiki-first` have a stable role split
+  - fine-grained rules are routed to workflow guides rather than duplicated into entry files
 - Verification method:
-  - `rg -n "dense-prediction|classification|dilated-convolutions|vision-architecture" wiki/INDEX.md wiki/log.md wiki/notes/cases outputs`
+  - `rg -n "workflow guides|总原则|wiki/notes/workflows" README.md AGENTS.md .codex/skills/kb-wiki-first/SKILL.md`
 
-### WB-4 Refresh the next-step memo for the current vision branch
+### WB-4 Prepare next autonomous branch handoff
 
 - Priority: P1
 - Depends on: WB-1, WB-2, WB-3
 - Done definition:
-  - the current branch state is summarized in an output or note that makes the next reading order explicit
-  - the branch can be resumed later without rereading all source material
+  - current governance cleanup status is summarized in outputs or handoff-ready notes
+  - the repository can cleanly continue either into governance cleanup execution or a fresh ingest/research branch without rereading all recent changes
 - Verification method:
-  - `rg -n "next research directions|vision architecture|next step|reading order" outputs wiki/notes`
+  - `rg -n "governance|workflow|ops|handoff|next step|restart point" outputs wiki/log.md ops/handoff.md`
 
 ## Natural Stop Rule for This Phase
 
@@ -60,5 +56,5 @@ This phase reaches a natural handoff only when:
 
 - WB-1, WB-2, WB-3, and WB-4 are all complete
 - all verification methods have passed
-- no unresolved high-risk decision remains inside this phase
-- continuing would require a new paper selection or a new vision sub-branch decision
+- entry-layer docs, workflow navigation, and current ops phase context are mutually consistent
+- continuing would require a fresh research/ingest decision or a new governance sub-branch

@@ -31,6 +31,11 @@ fi
 
 mkdir -p "$ROOT_DIR/raw/sources"
 
+# `joblib` / `loky` can fail to detect physical cores on some macOS setups and
+# emit a noisy traceback before falling back to logical cores. Pinning the max
+# CPU count avoids that probe while preserving parallelism.
+export LOKY_MAX_CPU_COUNT="${LOKY_MAX_CPU_COUNT:-$(python3 -c 'import os; print(os.cpu_count() or 1)')}"
+
 "$MARKER_BIN" "$INPUT_PATH" --output_dir "$ROOT_DIR/raw/sources"
 
 echo "Conversion complete. Output written under: $ROOT_DIR/raw/sources"

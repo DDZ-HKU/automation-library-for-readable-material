@@ -18,7 +18,7 @@ At the start of any autonomous run, read in this order:
 4. check whether the work item's verification method can run
 5. run verification
 6. if verification fails, keep working
-7. run `scripts/ops-check-handoff-readiness <project-root>`
+7. run `scripts/ops-gate <project-root> batch`
 8. if verification passes, continue unless a natural handoff condition is reached
 
 ## Required Script Checkpoints
@@ -28,11 +28,32 @@ The following checkpoints are mandatory when the scripts exist:
 - run start:
   - `scripts/ops-phase-status <project-root>`
 - after a meaningful execution batch:
-  - `scripts/ops-check-handoff-readiness <project-root>`
+  - `scripts/ops-gate <project-root> batch`
 - before any claimed stop:
-  - `scripts/ops-verify-continuation <project-root>`
+  - `scripts/ops-gate <project-root> stop`
+
+Compatibility note:
+
+- `scripts/ops-check-handoff-readiness`
+- `scripts/ops-verify-continuation`
+
+remain as thin wrappers around `scripts/ops-gate` for backwards compatibility.
 
 If these scripts disagree with the model's instinct to stop, the scripts win.
+
+## Verification Layers
+
+Keep these two layers distinct:
+
+- task-level verification:
+  - the verification method attached to each work item in `ops/workboard.md`
+  - answers "did this specific work item actually pass?"
+- run-level gate:
+  - `scripts/ops-gate <project-root> batch|stop`
+  - answers "given current workboard state and handoff state, should the run continue or can it stop?"
+
+Do not replace task-level verification with the run-level gate.
+Do not use the run-level gate as evidence that a specific work item was checked.
 
 ## Anti-Stall Rules
 

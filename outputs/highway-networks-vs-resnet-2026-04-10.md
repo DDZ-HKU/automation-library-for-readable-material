@@ -63,3 +63,15 @@ Highway Networks 把“跨层直通路径”发明得更显式，ResNet 把这�
 - 有时更强的方法，是把困难问题改写成默认直通、只学习增量修正的问题
 
 这也是为什么 ResNet 后来比 Highway 更像一个长期通用基元。
+
+## Source Trace
+
+这份 output 的核心主题判断，已部分回灌到以下 wiki 页面：
+
+- [highway-networks-to-resnet-transition.md](/Users/ddz/Documents/exp/wiki/notes/cases/highway-networks-to-resnet-transition.md)
+
+这份 output 仍保留的独特价值是：
+
+- 更短的并排比较写法
+- 适合快速回看 Highway 和 ResNet 的差异
+- 保留了“为什么历史最后偏向 ResNet”的浓缩说明

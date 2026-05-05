@@ -42,6 +42,16 @@ status: active
 - 它暴露的真实瓶颈是什么？
 - 这篇工作的价值，离开 benchmark 后还剩什么？
 
+如果论文本身是 tool / agent system 论文，而不是纯模型论文，再补这页：
+
+- [[how-to-read-a-tool-paper-for-system-construction]] / [how-to-read-a-tool-paper-for-system-construction.md](how-to-read-a-tool-paper-for-system-construction.md)
+
+核心问题：
+
+- 它的系统最小闭环由哪些部件组成？
+- 部件之间如何分工？
+- 哪一层才是真正的系统瓶颈？
+
 ## Layer 3: Topic-Specific Interpretation
 
 如果论文属于你已经在追的主题线，再进入案例页：

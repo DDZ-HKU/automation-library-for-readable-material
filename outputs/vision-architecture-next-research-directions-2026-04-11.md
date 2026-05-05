@@ -152,3 +152,9 @@ Dilated Convolutions 明确说明：
 ## Next Step
 
 当前最优 next step 是补 `Identity Mappings in Deep Residual Networks` 或 `Fully Convolutional Networks for Semantic Segmentation` 中的一篇，以便沿现有视觉分支继续推进。
+
+## Next Autonomous Move
+
+默认情况下，next autonomous move 应是：`wait for a new PDF`，优先等待 `Identity Mappings in Deep Residual Networks` 或 `Fully Convolutional Networks for Semantic Segmentation` 的文件进入项目。
+
+如果不等待新论文，也可以 `switch to a different staged paper`，但那会偏离当前最优视觉分支顺序。

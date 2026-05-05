@@ -4,12 +4,14 @@ aliases:
   - rnn
   - lstm
   - character-level-language-models
+  - dropout-in-rnns
+  - long-term-dependencies
 tags:
   - deep-learning
   - sequence-modeling
   - language-models
-updated: 2026-04-09
-source_count: 6
+updated: 2026-04-16
+source_count: 7
 status: active
 ---
 
@@ -33,6 +35,7 @@ RNN 是一类通过隐藏状态递归处理序列的神经网络，而 LSTM 是�
 - 在 seq2seq 范式下，很多任务即使对象本质更像 set，仍会被强行线性化；这时输入或输出顺序的选择会显著影响训练效果。
 - 这说明 pre-Transformer 时代不少“结构建模能力”其实部分依赖于人为选择的序列化方式，而不只是模型本身自动学会了结构。
 - Transformer 后来的突破，可以理解为把 attention 从 RNN 外围的辅助机制，推进成主要的信息访问与表示计算机制。
+- Relational Memory Core 说明 RNN/memory 线还可以继续往“记忆内部的关系交互”方向演化，而不只是继续加长上下文。
 
 ## Evidence
 
@@ -42,6 +45,7 @@ RNN 是一类通过隐藏状态递归处理序列的神经网络，而 LSTM 是�
 - 关于 seq2seq 在集合输入/输出上的扩展，以及顺序选择为何影响性能，补充来自 [[order-matters-sequence-to-sequence-for-sets]] / [../sources/order-matters-sequence-to-sequence-for-sets.md](../sources/order-matters-sequence-to-sequence-for-sets.md)。
 - 关于 attention 如何先作为 RNN encoder-decoder 的对齐与检索机制出现，补充来自 [[neural-machine-translation-by-jointly-learning-to-align-and-translate]] / [../sources/neural-machine-translation-by-jointly-learning-to-align-and-translate.md](../sources/neural-machine-translation-by-jointly-learning-to-align-and-translate.md)。
 - 关于 Transformer 如何去掉 recurrent path、转向 self-attention 主导的架构，补充来自 [[the-annotated-transformer]] / [../sources/the-annotated-transformer.md](../sources/the-annotated-transformer.md)。
+- 关于 RMC 如何把 attention 内嵌进 memory 并增强 relational reasoning，补充来自 [[relational-recurrent-neural-networks]] / [../sources/relational-recurrent-neural-networks.md](../sources/relational-recurrent-neural-networks.md)。
 - 文中跨多类数据展示了能力边界：自然语言、Wikipedia 标记、LaTeX、Linux C 代码。
 
 ## Open Questions
@@ -65,4 +69,5 @@ RNN 是一类通过隐藏状态递归处理序列的神经网络，而 LSTM 是�
 - [[attention-mechanisms]] / [attention-mechanisms.md](attention-mechanisms.md)
 - [[sequence-to-sequence-for-sets]] / [sequence-to-sequence-for-sets.md](sequence-to-sequence-for-sets.md)
 - [[transformers]] / [transformers.md](transformers.md)
+- [[relational-memory-core]] / [relational-memory-core.md](relational-memory-core.md)
 - [[complextropy]] / [complextropy.md](complextropy.md)

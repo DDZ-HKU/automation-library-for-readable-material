@@ -1,6 +1,6 @@
 ---
 title: Vision Architecture Branching Points
-updated: 2026-04-11
+updated: 2026-04-16
 status: active
 ---
 
@@ -44,6 +44,7 @@ status: active
   - `AlexNet -> VGG/BN/Inception`
   - `Highway -> ResNet -> Identity/Pre-activation`
   - `FCN -> Dilated Conv -> DeepLab`
+- 这三条线里，第二条现在已经补到 `Highway -> ResNet -> Identity/Pre-activation`，说明 residual line 的关键后续不是继续加控制，而是把主路径进一步清理成默认 identity。
 
 ## Links
 
@@ -51,3 +52,4 @@ status: active
 - [[highway-networks]] / [../../concepts/highway-networks.md](../../concepts/highway-networks.md)
 - [[residual-networks]] / [../../concepts/residual-networks.md](../../concepts/residual-networks.md)
 - [[dilated-convolutions]] / [../../concepts/dilated-convolutions.md](../../concepts/dilated-convolutions.md)
+- [[why-identity-mappings-is-the-next-resnet-step]] / [why-identity-mappings-is-the-next-resnet-step.md](why-identity-mappings-is-the-next-resnet-step.md)

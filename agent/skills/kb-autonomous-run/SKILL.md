@@ -23,8 +23,8 @@ Before doing autonomous work, read:
 Use these scripts as part of the protocol, not as optional helpers:
 
 1. `scripts/ops-phase-status <project-root>` at run start
-2. `scripts/ops-check-handoff-readiness <project-root>` after each meaningful execution batch
-3. `scripts/ops-verify-continuation <project-root>` before any claimed stop or handoff
+2. `scripts/ops-gate <project-root> batch` after each meaningful execution batch
+3. `scripts/ops-gate <project-root> stop` before any claimed stop or handoff
 
 ## Required Behavior
 
@@ -35,8 +35,8 @@ Use these scripts as part of the protocol, not as optional helpers:
 - after an interim progress update, continue execution immediately unless a blocker or natural handoff condition has been reached
 - do not ask for permission to continue when the current phase is still active and no risk boundary has been crossed
 - at run start, inspect the current phase through `scripts/ops-phase-status`
-- after each meaningful execution batch, call `scripts/ops-check-handoff-readiness`
-- before stopping, call `scripts/ops-verify-continuation`
+- after each meaningful execution batch, call `scripts/ops-gate <project-root> batch`
+- before stopping, call `scripts/ops-gate <project-root> stop`
 - verify work before phase handoff
 - write or update `ops/handoff.md` only at a natural handoff point or forced early handoff
 

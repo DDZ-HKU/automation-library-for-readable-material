@@ -65,8 +65,15 @@ Highway Networks 到 ResNet 这条线真正教会人的，不只是“skip conne
 - 当前这条解读主要建立在 Highway Networks 扩展摘要和 ResNet 原始论文上，尚未纳入更完整的 1507.06228 长文与 ResNet 后续 pre-activation 论文。
 - 对“为什么社区最后更偏向 ResNet”的解释，目前仍偏结构简洁性与优化稳定性的推断。
 
+## Source Trace
+
+这页的主要上游 output 包括：
+
+- [../../../outputs/highway-networks-vs-resnet-2026-04-10.md](../../../outputs/highway-networks-vs-resnet-2026-04-10.md)
+
 ## Links
 
 - [[highway-networks]] / [../../concepts/highway-networks.md](../../concepts/highway-networks.md)
 - [[residual-networks]] / [../../concepts/residual-networks.md](../../concepts/residual-networks.md)
 - [[how-to-distinguish-architecture-optimization-and-systems-problems]] / [../frameworks/how-to-distinguish-architecture-optimization-and-systems-problems.md](../frameworks/how-to-distinguish-architecture-optimization-and-systems-problems.md)
+- [../../../outputs/highway-networks-vs-resnet-2026-04-10.md](../../../outputs/highway-networks-vs-resnet-2026-04-10.md)

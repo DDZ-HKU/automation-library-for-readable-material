@@ -11,6 +11,7 @@ Usage:
   scripts/kb index <pattern>
   scripts/kb outputs <pattern>
   scripts/kb related <page-path>
+  scripts/kb lint
 
 Commands:
   files    Search file paths under wiki/ and outputs/
@@ -18,6 +19,7 @@ Commands:
   index    Search wiki/INDEX.md only
   outputs  Search outputs/ only
   related  Find pages and outputs that reference a given page
+  lint     Scan wiki/ and outputs/ and write a Markdown health report
 EOF
 }
 
@@ -35,6 +37,282 @@ require_path() {
     usage >&2
     exit 1
   fi
+}
+
+today_iso() {
+  date '+%Y-%m-%d'
+}
+
+report_path() {
+  printf '%s/outputs/wiki-health-report-%s.md\n' "$ROOT_DIR" "$(today_iso)"
+}
+
+kb_lint() {
+  if ! command -v python3 >/dev/null 2>&1; then
+    echo "python3 is required for scripts/kb lint." >&2
+    exit 1
+  fi
+
+  python3 - "$ROOT_DIR" <<'PY'
+from __future__ import annotations
+
+import datetime as dt
+import os
+import re
+import sys
+from pathlib import Path
+
+root = Path(sys.argv[1]).resolve()
+wiki_dir = root / "wiki"
+outputs_dir = root / "outputs"
+index_path = wiki_dir / "INDEX.md"
+today = dt.date.today()
+report_path = outputs_dir / f"wiki-health-report-{today.isoformat()}.md"
+
+markdown_link_re = re.compile(r"\[([^\]]+)\]\(([^)]+)\)")
+wikilink_re = re.compile(r"\[\[([^\]]+)\]\]")
+updated_re = re.compile(r"^updated:\s*(\d{4}-\d{2}-\d{2})\s*$", re.MULTILINE)
+fenced_code_re = re.compile(r"```.*?```", re.DOTALL)
+inline_code_re = re.compile(r"`[^`\n]+`")
+aliases_block_re = re.compile(r"^aliases:\s*\n((?:^\s*-\s+.+\n?)*)", re.MULTILINE)
+alias_item_re = re.compile(r"^\s*-\s+(.+?)\s*$", re.MULTILINE)
+external_prefixes = ("http://", "https://", "mailto:")
+core_exceptions = {"wiki/INDEX.md", "wiki/log.md", "wiki/overview.md"}
+
+
+def repo_rel(path: Path) -> str:
+    return path.resolve().relative_to(root).as_posix()
+
+
+def markdown_files(base: Path) -> list[Path]:
+    return sorted(p for p in base.rglob("*.md") if p.is_file())
+
+
+def clean_target(raw_target: str) -> str:
+    target = raw_target.strip()
+    if target.startswith("<") and target.endswith(">"):
+        target = target[1:-1]
+    return target
+
+
+def strip_anchor_and_line_suffix(target: str) -> str:
+    target = target.split("#", 1)[0]
+    md_match = re.match(r"^(.*?\.md)(?::\d+(?::\d+)?)?$", target)
+    if md_match:
+        return md_match.group(1)
+    return target
+
+
+def resolve_local_target(source: Path, raw_target: str) -> Path | None:
+    target = clean_target(raw_target)
+    if not target or target.startswith("#") or target.startswith(external_prefixes):
+        return None
+    target = strip_anchor_and_line_suffix(target)
+    if not target.endswith(".md"):
+        return None
+    if target.startswith("/"):
+        resolved = Path(target)
+    else:
+        resolved = (source.parent / target).resolve()
+    try:
+        resolved.relative_to(root)
+    except ValueError:
+        return None
+    return resolved
+
+
+def indexed_paths() -> set[str]:
+    text = index_path.read_text(encoding="utf-8")
+    paths = set()
+    for match in re.finditer(r"\[[^\]]+\]\(([^)]+\.md)\)", text):
+      # Preserve repo-relative index entries like concepts/foo.md or ../ops/bar.md.
+        candidate = clean_target(match.group(1))
+        candidate = strip_anchor_and_line_suffix(candidate)
+        if candidate:
+            paths.add(candidate)
+    return paths
+
+
+def strip_code_spans(text: str) -> str:
+    text = fenced_code_re.sub("", text)
+    text = inline_code_re.sub("", text)
+    return text
+
+
+def aliases_for_page(text: str) -> list[str]:
+    match = aliases_block_re.search(text)
+    if not match:
+        return []
+    return [alias.strip() for alias in alias_item_re.findall(match.group(1))]
+
+
+all_wiki_files = markdown_files(wiki_dir)
+all_output_files = markdown_files(outputs_dir)
+all_scan_files = [index_path] + [p for p in all_wiki_files if p != index_path] + all_output_files
+wiki_slugs: dict[str, list[str]] = {}
+for path in all_wiki_files:
+    if path == index_path:
+        continue
+    text = path.read_text(encoding="utf-8")
+    candidates = [path.stem, *aliases_for_page(text)]
+    for candidate in candidates:
+        wiki_slugs.setdefault(candidate, []).append(repo_rel(path))
+indexed = indexed_paths()
+
+broken_links: list[tuple[str, str, str, str]] = []
+seen_broken = set()
+
+for path in all_scan_files:
+    text = path.read_text(encoding="utf-8")
+    scan_text = strip_code_spans(text)
+    source_rel = repo_rel(path)
+
+    for _, target in markdown_link_re.findall(scan_text):
+        resolved = resolve_local_target(path, target)
+        if resolved is None:
+            continue
+        resolved_rel = repo_rel(resolved) if resolved.exists() else resolved.relative_to(root).as_posix()
+        if not resolved.exists():
+            row = (source_rel, clean_target(target), resolved_rel, "missing-target")
+            if row not in seen_broken:
+                broken_links.append(row)
+                seen_broken.add(row)
+
+    for slug in wikilink_re.findall(scan_text):
+        slug = slug.strip()
+        if not slug:
+            continue
+        if slug in wiki_slugs:
+            continue
+        candidate = f"wiki/{slug}.md"
+        row = (source_rel, f"[[{slug}]]", candidate, "missing-target")
+        if row not in seen_broken:
+            broken_links.append(row)
+            seen_broken.add(row)
+
+stale_pages: list[tuple[str, str, int, str]] = []
+for path in all_wiki_files:
+    text = path.read_text(encoding="utf-8")
+    match = updated_re.search(text)
+    if not match:
+        continue
+    updated = dt.date.fromisoformat(match.group(1))
+    age = (today - updated).days
+    if age > 90:
+        stale_pages.append((repo_rel(path), updated.isoformat(), age, "stale-page"))
+
+
+def suggest_index_section(rel_path: str) -> str:
+    if rel_path.startswith("wiki/concepts/"):
+        return "Concepts"
+    if rel_path.startswith("wiki/sources/"):
+        return "Sources"
+    if rel_path.startswith("wiki/notes/workflows/"):
+        return "Notes / 工作流"
+    if rel_path.startswith("wiki/notes/frameworks/"):
+        return "Notes / 框架"
+    if rel_path.startswith("wiki/notes/cases/"):
+        return "Notes / 案例"
+    if rel_path.startswith("wiki/entities/"):
+        return "Entities"
+    return "Core or matching section"
+
+
+orphan_pages: list[tuple[str, str, str, str]] = []
+for path in all_wiki_files:
+    rel = repo_rel(path)
+    if rel in core_exceptions:
+        continue
+    index_rel = rel.removeprefix("wiki/")
+    if index_rel not in indexed:
+        orphan_pages.append((rel, Path(rel).parent.as_posix(), suggest_index_section(rel), "orphan-page"))
+
+
+def render_lines(rows: list[str]) -> str:
+    if not rows:
+        return "无\n"
+    return "\n".join(rows) + "\n"
+
+
+summary = [
+    "# Wiki Health Report",
+    "",
+    f"日期：{today.isoformat()}",
+    "",
+    "## Summary",
+    "",
+    f"- broken links: {len(broken_links)}",
+    f"- stale pages: {len(stale_pages)}",
+    f"- orphan pages: {len(orphan_pages)}",
+    "- report scope: wiki/, outputs/",
+    "",
+    "## Broken Links",
+    "",
+]
+
+broken_lines = [
+    f"- `{source}` -> `{target}` -> `{resolved}` (`{kind}`)"
+    for source, target, resolved, kind in broken_links
+]
+
+stale_header = [
+    "",
+    "## Stale Pages",
+    "",
+]
+stale_lines = [
+    f"- `{page}` | updated: `{updated}` | age: `{age}` days (`{kind}`)"
+    for page, updated, age, kind in stale_pages
+]
+
+orphan_header = [
+    "",
+    "## Orphan Pages",
+    "",
+]
+orphan_lines = [
+    f"- `{page}` | dir: `{directory}` | suggested index section: `{section}` (`{kind}`)"
+    for page, directory, section, kind in orphan_pages
+]
+
+suggested_fixes = [
+    "",
+    "## Suggested Fixes",
+    "",
+]
+fix_lines = [
+    "- broken links: fix the target path, restore the missing page, or remove the dead reference.",
+    "- stale pages: review pages older than 90 days and confirm whether the content is still current.",
+    "- orphan pages: add the page to `wiki/INDEX.md` or intentionally merge/delete it after review.",
+]
+
+scope_notes = [
+    "",
+    "## Scope Notes",
+    "",
+    "- This report only checks local repository Markdown targets.",
+    "- External `http/https` links are ignored.",
+    "- Anchor validity is not checked in this version.",
+    "- The command reports issues but does not auto-fix them.",
+]
+
+report_text = "\n".join(summary)
+report_text += render_lines(broken_lines)
+report_text += "\n".join(stale_header)
+report_text += render_lines(stale_lines)
+report_text += "\n".join(orphan_header)
+report_text += render_lines(orphan_lines)
+report_text += "\n".join(suggested_fixes)
+report_text += render_lines(fix_lines)
+report_text += "\n".join(scope_notes) + "\n"
+
+report_path.write_text(report_text, encoding="utf-8")
+
+print(f"broken links: {len(broken_links)}")
+print(f"stale pages: {len(stale_pages)}")
+print(f"orphan pages: {len(orphan_pages)}")
+print(f"report: {report_path}")
+PY
 }
 
 if ! command -v rg >/dev/null 2>&1; then
@@ -100,6 +378,9 @@ case "$cmd" in
     rg -n --fixed-strings -- "$slug.md" "$ROOT_DIR/wiki" "$ROOT_DIR/outputs" | rg -v --fixed-strings -- "$rel_target" || true
     printf '\n## TITLE-LIKE REFERENCES\n'
     rg -n -i -- "$slug" "$ROOT_DIR/wiki/INDEX.md" "$ROOT_DIR/wiki/notes" "$ROOT_DIR/outputs" | rg -v --fixed-strings -- "$rel_target" || true
+    ;;
+  lint)
+    kb_lint
     ;;
   *)
     usage >&2
