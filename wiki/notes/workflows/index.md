@@ -16,6 +16,10 @@ status: active
   - 何时先看 `concepts`、`notes`、`outputs` 或 `raw`
 - [[how-to-run-ingest-query-lint-update-in-this-repo]] / [how-to-run-ingest-query-lint-update-in-this-repo.md](how-to-run-ingest-query-lint-update-in-this-repo.md)
   - 统一定义 `Ingest / Query / Lint / Update` 四种核心运行模式
+- [[how-agents-should-govern-links-and-diffs-in-this-knowledge-base]] / [how-agents-should-govern-links-and-diffs-in-this-knowledge-base.md](how-agents-should-govern-links-and-diffs-in-this-knowledge-base.md)
+  - 规定 agent 在增量维护中如何优先使用 `review-diff`，以及如何治理页尾链接预算
+- [[how-agents-should-decide-when-spec-is-needed]] / [how-agents-should-decide-when-spec-is-needed.md](how-agents-should-decide-when-spec-is-needed.md)
+  - 规定何时不该触发 spec，何时只需 light spec，何时才进入 full spec
 
 ### 产物沉淀与升格
 
@@ -39,12 +43,19 @@ status: active
 - [[how-to-run-ingest-query-lint-update-in-this-repo]] / [how-to-run-ingest-query-lint-update-in-this-repo.md](how-to-run-ingest-query-lint-update-in-this-repo.md)
   - 当前 `Lint` 模式的执行入口是 `scripts/kb lint`
 
+### 增量维护与关系治理
+
+- [[how-agents-should-govern-links-and-diffs-in-this-knowledge-base]] / [how-agents-should-govern-links-and-diffs-in-this-knowledge-base.md](how-agents-should-govern-links-and-diffs-in-this-knowledge-base.md)
+  - 当前增量维护的硬性起手动作是 `scripts/kb review-diff`
+
 ### 运行协议与治理
 
 - [[how-to-apply-ops-protocol-outside-autonomous-runs]] / [how-to-apply-ops-protocol-outside-autonomous-runs.md](how-to-apply-ops-protocol-outside-autonomous-runs.md)
   - 哪些 `ops` 规则只适用于 autonomous run，哪些应外溢到普通工作
 - [[how-to-classify-repo-rules-as-guides-sensors-facades-or-protocol]] / [how-to-classify-repo-rules-as-guides-sensors-facades-or-protocol.md](how-to-classify-repo-rules-as-guides-sensors-facades-or-protocol.md)
   - 如何给当前仓库里的规则对象归类
+- [[how-agents-should-decide-when-spec-is-needed]] / [how-agents-should-decide-when-spec-is-needed.md](how-agents-should-decide-when-spec-is-needed.md)
+  - 何时 spec 是必要治理动作，何时只是过度触发
 
 ### 资料预处理
 
@@ -57,6 +68,11 @@ status: active
 
 1. [[how-to-route-knowledge-queries-in-this-repo]] / [how-to-route-knowledge-queries-in-this-repo.md](how-to-route-knowledge-queries-in-this-repo.md)
 2. 如需确认当前模式边界，再看 [[how-to-run-ingest-query-lint-update-in-this-repo]] / [how-to-run-ingest-query-lint-update-in-this-repo.md](how-to-run-ingest-query-lint-update-in-this-repo.md)
+
+### 如果你要做增量维护、修链或收缩关系
+
+1. [[how-agents-should-govern-links-and-diffs-in-this-knowledge-base]] / [how-agents-should-govern-links-and-diffs-in-this-knowledge-base.md](how-agents-should-govern-links-and-diffs-in-this-knowledge-base.md)
+2. 再按需要跳到具体的 query routing、output promotion 或 lint guide
 
 ### 如果你要统一强化仓库的四种知识操作
 
@@ -75,6 +91,7 @@ status: active
 ### 如果你要判断一条新规则该落在哪
 
 1. [[how-to-classify-repo-rules-as-guides-sensors-facades-or-protocol]] / [how-to-classify-repo-rules-as-guides-sensors-facades-or-protocol.md](how-to-classify-repo-rules-as-guides-sensors-facades-or-protocol.md)
+2. 如需判断是否还要进 spec，再看 [[how-agents-should-decide-when-spec-is-needed]] / [how-agents-should-decide-when-spec-is-needed.md](how-agents-should-decide-when-spec-is-needed.md)
 
 ### 如果你要做长时运行或借用 `ops` 协议
 

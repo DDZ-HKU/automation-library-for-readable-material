@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "notes/frameworks/how-to-use-llm-capabilities-for-agents-and-harness-engineering.md",
+                "file": "concepts/recurrent-neural-networks.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "how-to-use-llm-capabilities-for-agents-and-harness-engineering"
+              "title": "recurrent-neural-networks"
             }
           }
         ]
@@ -41,7 +41,7 @@
               "type": "file-explorer",
               "state": {
                 "sortOrder": "alphabetical",
-                "autoReveal": false
+                "autoReveal": true
               },
               "icon": "lucide-folder-closed",
               "title": "文件列表"
@@ -94,7 +94,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "notes/frameworks/how-to-use-llm-capabilities-for-agents-and-harness-engineering.md",
+                "file": "concepts/recurrent-neural-networks.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -104,7 +104,7 @@
                 "unlinkedCollapsed": true
               },
               "icon": "links-coming-in",
-              "title": "how-to-use-llm-capabilities-for-agents-and-harness-engineering 的反向链接列表"
+              "title": "recurrent-neural-networks 的反向链接列表"
             }
           },
           {
@@ -113,12 +113,12 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "notes/frameworks/how-to-use-llm-capabilities-for-agents-and-harness-engineering.md",
+                "file": "concepts/recurrent-neural-networks.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               },
               "icon": "links-going-out",
-              "title": "how-to-use-llm-capabilities-for-agents-and-harness-engineering 的出链列表"
+              "title": "recurrent-neural-networks 的出链列表"
             }
           },
           {
@@ -156,13 +156,13 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "notes/frameworks/how-to-use-llm-capabilities-for-agents-and-harness-engineering.md",
+                "file": "concepts/recurrent-neural-networks.md",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
               },
               "icon": "lucide-list",
-              "title": "how-to-use-llm-capabilities-for-agents-and-harness-engineering 的大纲"
+              "title": "recurrent-neural-networks 的大纲"
             }
           }
         ]
@@ -186,18 +186,33 @@
   "active": "717d81d3cf7d6d37",
   "lastOpenFiles": [
     "concepts/agent-harness-engineering.md",
+    "concepts/transformers.md",
+    "未命名.canvas",
+    "未命名 1",
+    "未命名",
+    "notes/frameworks/how-to-use-llm-capabilities-for-agents-and-harness-engineering.md",
+    "notes/frameworks/how-to-think-about-multi-agent-ecology.md",
+    "notes/frameworks/how-to-think-about-emergence-in-agent-systems.md",
+    "notes/frameworks/how-to-think-about-scaling-in-agent-systems.md",
+    "notes/frameworks/how-to-think-about-social-choice-for-alignment-governance.md",
+    "notes/frameworks/how-to-think-about-behavioral-economics-for-human-feedback.md",
+    "notes/frameworks/how-to-think-about-mechanism-design-for-rlhf-and-agent-systems.md",
+    "notes/frameworks/agi-theme-stack.md",
+    "concepts/economics-and-alignment.md",
+    "concepts/game-theory-for-ai-interaction.md",
+    "concepts/complexity-science-for-ai-systems.md",
+    "sources/path2agi-economics-and-alignment.md",
+    "sources/path2agi-game-theory.md",
+    "sources/path2agi-complexity-science.md",
+    "concepts/cybernetics.md",
+    "concepts/ai-as-cross-disciplinary-convergence.md",
+    "sources/path2agi-cybernetics.md",
+    "sources/path2agi-knowledge-map.md",
+    "notes/workflows/how-agents-should-decide-when-spec-is-needed.md",
+    "notes/workflows/how-agents-should-govern-links-and-diffs-in-this-knowledge-base.md",
     "notes/workflows/how-to-apply-ops-protocol-outside-autonomous-runs.md",
     "notes/workflows/how-to-run-ingest-query-lint-update-in-this-repo.md",
     "notes/cases/alexnet-as-scaling-breakthrough.md",
-    "concepts/dilated-convolutions.md",
-    "concepts/complextropy.md",
-    "concepts/attention-mechanisms.md",
-    "concepts/alexnet.md",
-    "concepts/recurrent-neural-networks.md",
-    "concepts/pipeline-parallelism.md",
-    "concepts/llm-wiki.md",
-    "concepts/tool-use-in-llms.md",
-    "INDEX.md",
-    "sources/an-approach-for-api-synthesis-using-large-language-models.md"
+    "concepts/dilated-convolutions.md"
   ]
 }

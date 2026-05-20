@@ -19,6 +19,23 @@
 
 ## Repository Contract
 
+### Architecture invariants
+
+本仓库的核心模型只有一条内容流：
+
+```text
+raw -> wiki -> outputs
+```
+
+其他目录属于运行适配层，而不是新的知识层：
+
+- `scripts/`：可执行 facade，用来压缩高频操作
+- `agent/skills/`：repo-local skill 的源目录
+- `.codex/skills/`：安装到当前 Codex 环境的适配副本，不应作为独立事实源
+- `ops/`：长时自主运行的治理协议，默认不外溢为普通 query / ingest 的完整流程
+
+新增规则、工具或目录时，先判断它是在降低下一次同类任务的成本，还是只是在给当前问题打补丁。若不能降低未来检索、路由、验证或维护成本，优先不要新增长期维护对象。
+
 ### `raw/`
 
 原始资料层。
@@ -110,6 +127,8 @@
 ## Operating Rules
 
 更细粒度的查询路由、升格边界、规则分类与 `ops` 协议外溢，以下只保留总原则；具体决策树应以下沉到 `wiki/notes/workflows/` 的 guide 为准。
+
+spec 也遵循同一原则：只有当改动会留下新的长期维护负担时，才考虑进入 spec；不新增长期维护对象的局部维护应直接执行。
 
 ### Before answering any non-trivial question
 

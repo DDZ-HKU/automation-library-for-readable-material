@@ -893,3 +893,80 @@
 - 让 lint 扫描断链、超过 90 天未更新页面与未登记到 `wiki/INDEX.md` 的孤儿页
 - 默认输出 `outputs/wiki-health-report-YYYY-MM-DD.md`
 - 更新 `README.md`、workflow 文档与 `wiki/INDEX.md`
+
+## [2026-05-05] refactor | govern-links-and-diffs-for-incremental-maintenance
+
+把知识库增量维护中的 diff 入口和链接预算收束成 agent 规范：
+
+- 新建 `wiki/notes/workflows/how-agents-should-govern-links-and-diffs-in-this-knowledge-base.md`
+- 规定知识库增量维护任务必须先跑 `scripts/kb review-diff`
+- 为 `Source Trace`、`Related Pages`、`Links` 三块定义默认预算与超预算条件
+- 更新 `wiki/notes/workflows/index.md`
+- 更新 `wiki/INDEX.md`
+
+## [2026-05-05] refactor | redefine-spec-trigger-boundary
+
+把 spec 的触发边界从“看起来像新功能”收束为“是否新增长期维护负担”：
+
+- 新建 `wiki/notes/workflows/how-agents-should-decide-when-spec-is-needed.md`
+- 定义 `No Spec / Light Spec / Full Spec` 三档边界
+- 规定只有新增持久对象、默认行为、规则系统或工具入口时，才考虑进入 spec
+- 更新 `wiki/notes/workflows/index.md`
+- 更新 `wiki/INDEX.md`
+
+## [2026-05-05] ingest | path2agi-core-map-and-cybernetics
+
+将 `Path2AGI` 仓库中的核心导航材料与控制论主题切片纳入当前知识库：
+
+- 将 `README.md`、`00-index.md`、`00-overview.md`、`10-computer-science.md`、`13-cybernetics.md` 复制到 `raw/sources/path2agi-core/`
+- 新建资料摘要页 `wiki/sources/path2agi-knowledge-map.md`
+- 新建资料摘要页 `wiki/sources/path2agi-cybernetics.md`
+- 新建概念页 `wiki/concepts/ai-as-cross-disciplinary-convergence.md`
+- 新建概念页 `wiki/concepts/cybernetics.md`
+- 更新 `wiki/INDEX.md`
+- 更新 `wiki/overview.md`
+
+## [2026-05-05] ingest | path2agi-complexity-game-economics
+
+继续将 `Path2AGI` 仓库中与 agent / AGI 最相关的交互与系统层主题纳入当前知识库：
+
+- 将 `14-complexity-science.md`、`22-game-theory.md`、`23-economics.md` 复制到 `raw/sources/path2agi-core/`
+- 新建资料摘要页 `wiki/sources/path2agi-complexity-science.md`
+- 新建资料摘要页 `wiki/sources/path2agi-game-theory.md`
+- 新建资料摘要页 `wiki/sources/path2agi-economics-and-alignment.md`
+- 新建概念页 `wiki/concepts/complexity-science-for-ai-systems.md`
+- 新建概念页 `wiki/concepts/game-theory-for-ai-interaction.md`
+- 新建概念页 `wiki/concepts/economics-and-alignment.md`
+- 更新 `wiki/INDEX.md`
+- 更新 `wiki/overview.md`
+
+## [2026-05-06] query | agi-theme-stack-and-deep-dives
+
+围绕新补进的 `Path2AGI` 主题线继续做高层压缩与深讲产物：
+
+- 新建 framework 页 `wiki/notes/frameworks/agi-theme-stack.md`
+- 将 tool use、harness、控制论、复杂性、博弈论与经济学/对齐压成一条 AGI 主题栈
+- 新建 `outputs/economics-and-alignment-for-rlhf-and-agents-2026-05-06.md`
+- 新建 `outputs/complexity-science-for-agent-ecology-2026-05-06.md`
+- 更新 `wiki/INDEX.md`
+
+## [2026-05-06] query | split-economics-and-complexity-branches
+
+将 `economics-and-alignment` 与 `complexity-science-for-ai-systems` 两条线继续下钻成可复用 framework：
+
+- 新建 `wiki/notes/frameworks/how-to-think-about-mechanism-design-for-rlhf-and-agent-systems.md`
+- 新建 `wiki/notes/frameworks/how-to-think-about-behavioral-economics-for-human-feedback.md`
+- 新建 `wiki/notes/frameworks/how-to-think-about-social-choice-for-alignment-governance.md`
+- 新建 `wiki/notes/frameworks/how-to-think-about-scaling-in-agent-systems.md`
+- 新建 `wiki/notes/frameworks/how-to-think-about-emergence-in-agent-systems.md`
+- 新建 `wiki/notes/frameworks/how-to-think-about-multi-agent-ecology.md`
+- 更新 `wiki/INDEX.md`
+
+## [2026-05-20] refactor | reduce-architecture-maintenance-entropy
+
+围绕 `llm-wiki` 架构做一轮减熵维护：
+
+- 明确 `raw -> wiki -> outputs` 是唯一核心内容流
+- 将 `scripts/`、`agent/skills/`、`.codex/skills/` 与 `ops/` 标注为运行适配层
+- 同步 `.codex/skills/kb-autonomous-run/SKILL.md` 与 `agent/skills/kb-autonomous-run/SKILL.md` 的 ops gate 协议
+- 删除 `outputs/` 中两个与正式文件完全相同的 `copy.md` 副本

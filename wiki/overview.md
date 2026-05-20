@@ -6,7 +6,7 @@
 
 - 仓库结构已初始化
 - 代理维护规则已建立
-- 已 ingest 17 份真实资料
+- 已 ingest 多批真实资料与知识地图型材料
 - `outputs/` 已预留用于保存报告、答案和分析
 - `wiki/notes/` 已开始承担“默会知识层”，并细分为 workflows / frameworks / cases
 
@@ -37,6 +37,10 @@
 - CREATOR 如何把抽象工具创建与具体决策执行解耦
 - ToolLibGen 如何把离散工具重构成结构化工具库，缓解 tool retrieval scaling 问题
 - LLM 如何进入 API synthesis / program synthesis 旁支，而不只是 agent-style tool governance
+- AI/AGI 也可以被组织为一张跨 29 学科、6 学科簇的知识地图，而不只是按单一模型路线叙述
+- 控制论可以作为理解 RL、RLHF、agent feedback loop 与 harness 的统一中层语言
+- 复杂性科学可以作为理解 scaling、涌现能力、多主体系统与 agent ecology 的整体行为语言
+- 博弈论与经济学可以分别从互动结构、偏好与激励两层补齐 agent / alignment 线
 - agent harness engineering 已从最小闭环框架扩展到 coding-agent 外层 harness、长时运行 harness 与工业级 orchestration 案例
 - harness 主题线已开始分化出 `guides vs sensors` 和 `trace-driven harness optimization` 两个更细粒度框架
 - harness 主题线已开始补齐长时运行问题，尤其是 `context reset / compaction / handoff` 的区分

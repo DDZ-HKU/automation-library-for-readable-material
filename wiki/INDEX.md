@@ -1,13 +1,15 @@
 # INDEX
 
-最近更新：2026-05-05
+最近更新：2026-05-06
 
 ## Core
 
 - [overview.md](overview.md) - 当前知识库的范围、目标与主要结构。更新：2026-04-16
-- [log.md](log.md) - 知识库演化日志。更新：2026-05-05
+- [log.md](log.md) - 知识库演化日志。更新：2026-05-06
 
 ## Agent Layer
+
+说明：本节列出的 `scripts/`、`agent/skills/`、`.codex/skills/` 与 `ops/` 是围绕 `raw -> wiki -> outputs` 内容流的运行适配层；`agent/skills/` 是 skill 源目录，`.codex/skills/` 是当前 Codex 环境的安装副本，不应作为独立事实源。
 
 - [../ops/charter.md](../ops/charter.md) - 自主运行层的长期宪章，定义有价值工作、质量边界与必须交接的人类决策。更新：2026-04-11
 - [../ops/workboard.md](../ops/workboard.md) - 自主运行层的当前阶段工作板与验证驱动停止条件。更新：2026-05-05
@@ -32,6 +34,11 @@
 - [concepts/complextropy.md](concepts/complextropy.md) - 讨论“熵之外的中间态复杂性”的概念页。更新：2026-04-08，来源：1
 - [concepts/recurrent-neural-networks.md](concepts/recurrent-neural-networks.md) - 递归神经网络、LSTM、长程依赖、seq2seq 与训练经验的概念页。更新：2026-04-09，来源：6
 - [concepts/tool-use-in-llms.md](concepts/tool-use-in-llms.md) - Tool use 作为 LLM 能力链：检索、规划、执行、反馈与评估的系统化主题页。更新：2026-04-11，来源：1
+- [concepts/ai-as-cross-disciplinary-convergence.md](concepts/ai-as-cross-disciplinary-convergence.md) - 将 AI/AGI 理解为六大学科簇、29 学科长期汇流的知识地图视角。更新：2026-05-05，来源：1
+- [concepts/cybernetics.md](concepts/cybernetics.md) - 用反馈、状态与控制闭环来理解智能系统、agent 与 harness 的概念页。更新：2026-05-05，来源：1
+- [concepts/complexity-science-for-ai-systems.md](concepts/complexity-science-for-ai-systems.md) - 用涌现、规模、相变与多主体整体行为来理解 AI 系统的概念页。更新：2026-05-05，来源：1
+- [concepts/game-theory-for-ai-interaction.md](concepts/game-theory-for-ai-interaction.md) - 用均衡、对抗和策略性交互来理解多主体 AI 的概念页。更新：2026-05-05，来源：1
+- [concepts/economics-and-alignment.md](concepts/economics-and-alignment.md) - 用偏好、激励、制度与对齐语言来重写 AI 奖励设计问题的概念页。更新：2026-05-05，来源：1
 - [concepts/alexnet.md](concepts/alexnet.md) - AlexNet 如何把大规模数据、GPU、ReLU 与 dropout 组装成视觉深度学习的突破点。更新：2026-04-11，来源：1
 - [concepts/variational-autoencoders.md](concepts/variational-autoencoders.md) - VAE 如何在 latent 表征与 decoder 细节建模之间分工，以及为何 lossy latent 可能是有意设计。更新：2026-04-16，来源：1
 - [concepts/residual-networks.md](concepts/residual-networks.md) - ResNet 如何通过 residual reformulation 与 shortcut 连接缓解深层网络优化困难，并在后续演化中收敛到更干净的 identity path。更新：2026-04-16，来源：2
@@ -50,6 +57,11 @@
 - [sources/understanding-lstm-networks.md](sources/understanding-lstm-networks.md) - colah 对 LSTM 长程依赖与门控机制的经典解释。更新：2026-04-08
 - [sources/recurrent-neural-network-regularization.md](sources/recurrent-neural-network-regularization.md) - Zaremba 等关于 LSTM dropout 正则化的论文摘要。更新：2026-04-08
 - [sources/order-matters-sequence-to-sequence-for-sets.md](sources/order-matters-sequence-to-sequence-for-sets.md) - Vinyals 等关于 seq2seq 在集合输入/输出上扩展及“顺序重要性”的论文摘要。更新：2026-04-09
+- [sources/path2agi-knowledge-map.md](sources/path2agi-knowledge-map.md) - `Path2AGI` 仓库如何把 AI/AGI 组织成六大学科簇与多条能力形成路径。更新：2026-05-05
+- [sources/path2agi-cybernetics.md](sources/path2agi-cybernetics.md) - `Path2AGI` 对控制论、反馈闭环与 RL/RLHF 关系的主题性总结。更新：2026-05-05
+- [sources/path2agi-complexity-science.md](sources/path2agi-complexity-science.md) - `Path2AGI` 如何用复杂性科学语言解释涌现、规模跃迁与 AI 整体行为。更新：2026-05-05
+- [sources/path2agi-game-theory.md](sources/path2agi-game-theory.md) - `Path2AGI` 如何用博弈论语言重写多主体 AI 的稳定性与互动结构。更新：2026-05-05
+- [sources/path2agi-economics-and-alignment.md](sources/path2agi-economics-and-alignment.md) - `Path2AGI` 如何用偏好、激励与制度语言解释 AI 对齐。更新：2026-05-05
 - [sources/relational-recurrent-neural-networks.md](sources/relational-recurrent-neural-networks.md) - RMC 论文摘要，聚焦 memory 内部的关系交互与 relational reasoning。更新：2026-04-16
 - [sources/toolllm-facilitating-large-language-models-to-master-16000-real-world-apis.md](sources/toolllm-facilitating-large-language-models-to-master-16000-real-world-apis.md) - ToolLLM 原始论文摘要，聚焦 ToolBench、ToolEval、API 检索与搜索式推理。更新：2026-04-11
 - [sources/harness-engineering-for-coding-agent-users.md](sources/harness-engineering-for-coding-agent-users.md) - Thoughtworks 对 coding agent 外层 harness 的边界、guides/sensors 与 harnessability 的系统整理。更新：2026-04-13
@@ -82,6 +94,8 @@
 - [notes/workflows/index.md](notes/workflows/index.md) - workflow 总索引页，按用途分组并提供最短阅读路径。更新：2026-04-14
 - [notes/workflows/pdf-to-markdown-preprocessing.md](notes/workflows/pdf-to-markdown-preprocessing.md) - 本地 `marker` 驱动的 PDF 预处理流程与已验证用法。更新：2026-04-09
 - [notes/workflows/how-to-run-ingest-query-lint-update-in-this-repo.md](notes/workflows/how-to-run-ingest-query-lint-update-in-this-repo.md) - 统一定义 `Ingest / Query / Lint / Update` 四种核心模式及其边界。更新：2026-05-05
+- [notes/workflows/how-agents-should-govern-links-and-diffs-in-this-knowledge-base.md](notes/workflows/how-agents-should-govern-links-and-diffs-in-this-knowledge-base.md) - 规定 agent 在增量维护中如何优先使用 `review-diff`，以及如何治理页尾链接预算。更新：2026-05-05
+- [notes/workflows/how-agents-should-decide-when-spec-is-needed.md](notes/workflows/how-agents-should-decide-when-spec-is-needed.md) - 规定 spec 何时不应触发、何时只需 light spec、何时才进入 full spec。更新：2026-05-05
 - [notes/workflows/how-to-route-knowledge-queries-in-this-repo.md](notes/workflows/how-to-route-knowledge-queries-in-this-repo.md) - 规定知识查询时如何在 concepts、notes、outputs 与 raw 之间做稳定路由。更新：2026-04-14
 - [notes/workflows/how-to-manage-partially-promoted-outputs.md](notes/workflows/how-to-manage-partially-promoted-outputs.md) - 规定核心结论已进 wiki、但 output 仍保留独特价值时，应如何做部分升格管理与双向回链。更新：2026-04-14
 - [notes/workflows/how-to-classify-repo-rules-as-guides-sensors-facades-or-protocol.md](notes/workflows/how-to-classify-repo-rules-as-guides-sensors-facades-or-protocol.md) - 规定当前仓库的规则对象应如何区分为 guide、sensor、facade 或 protocol。更新：2026-04-14
@@ -107,6 +121,13 @@
 - [notes/frameworks/how-to-design-a-tool-governance-layer-for-agentic-knowledge-bases.md](notes/frameworks/how-to-design-a-tool-governance-layer-for-agentic-knowledge-bases.md) - 将 tool 论文中的五种模式映射成知识库里的 atomic/facade/planning/governance 四层设计。更新：2026-04-13
 - [notes/frameworks/how-to-think-about-evaluation-and-serving-in-tool-agent-systems.md](notes/frameworks/how-to-think-about-evaluation-and-serving-in-tool-agent-systems.md) - 解释为什么 evaluation 与 serving 不是工具系统的尾部配件，而是系统能力的一部分。更新：2026-04-13
 - [notes/frameworks/tool-paper-comparison-matrix.md](notes/frameworks/tool-paper-comparison-matrix.md) - 按 tool use / making / library / synthesis / evaluation / serving 六维比较工具论文。更新：2026-04-13
+- [notes/frameworks/agi-theme-stack.md](notes/frameworks/agi-theme-stack.md) - 将执行、反馈、复杂性、互动结构与偏好激励压成一条 AGI 主题栈。更新：2026-05-06
+- [notes/frameworks/how-to-think-about-mechanism-design-for-rlhf-and-agent-systems.md](notes/frameworks/how-to-think-about-mechanism-design-for-rlhf-and-agent-systems.md) - 用机制设计语言重写奖励函数、规则漏洞与 agent 激励结构。更新：2026-05-06
+- [notes/frameworks/how-to-think-about-behavioral-economics-for-human-feedback.md](notes/frameworks/how-to-think-about-behavioral-economics-for-human-feedback.md) - 用行为经济学解释人类反馈为什么不是稳定 ground truth。更新：2026-05-06
+- [notes/frameworks/how-to-think-about-social-choice-for-alignment-governance.md](notes/frameworks/how-to-think-about-social-choice-for-alignment-governance.md) - 用社会选择语言重写群体偏好聚合与 alignment governance。更新：2026-05-06
+- [notes/frameworks/how-to-think-about-scaling-in-agent-systems.md](notes/frameworks/how-to-think-about-scaling-in-agent-systems.md) - 用组织相位变化而不是单一性能增长来理解 agent systems 的 scaling。更新：2026-05-06
+- [notes/frameworks/how-to-think-about-emergence-in-agent-systems.md](notes/frameworks/how-to-think-about-emergence-in-agent-systems.md) - 用涌现视角判断 agent systems 中哪些能力属于系统级行为。更新：2026-05-06
+- [notes/frameworks/how-to-think-about-multi-agent-ecology.md](notes/frameworks/how-to-think-about-multi-agent-ecology.md) - 用生态视角理解多 agent 系统中的角色分化、依赖与脆弱性。更新：2026-05-06
 案例：
 - [notes/cases/tacit-knowledge-on-rnn-to-transformer-transition.md](notes/cases/tacit-knowledge-on-rnn-to-transformer-transition.md) - 用 RNN 到 Transformer 的演化线讲解如何思考、判断和应用模型范式变化。更新：2026-04-09
 - [notes/cases/rnn-as-epistemology.md](notes/cases/rnn-as-epistemology.md) - 从 Karpathy 的 RNN 文章抽取其隐含的过程性认识论与“预测即理解”倾向。更新：2026-04-10
@@ -154,3 +175,5 @@
 - [../outputs/harness-engineering-practice-report-and-component-rules-2026-04-14.md](../outputs/harness-engineering-practice-report-and-component-rules-2026-04-14.md) - 总结 harness 工程可有哪些组件层、规则设计与最小可落地方案。更新：2026-04-14
 - [../outputs/harness-engineering-implementation-checklist-2026-04-14.md](../outputs/harness-engineering-implementation-checklist-2026-04-14.md) - 面向工程实施，给出 harness 从 guide 到 protocol 的分层检查项、落地顺序与故障排查。更新：2026-04-14
 - [../outputs/output-promotion-audit-2026-04-13.md](../outputs/output-promotion-audit-2026-04-13.md) - 审计当前 outputs 中哪些已升格、部分升格，或应继续作为阶段产物保留。更新：2026-04-13
+- [../outputs/economics-and-alignment-for-rlhf-and-agents-2026-05-06.md](../outputs/economics-and-alignment-for-rlhf-and-agents-2026-05-06.md) - 把 RLHF、奖励设计、偏好学习与委托—代理问题压成一条对齐解释线。更新：2026-05-06
+- [../outputs/complexity-science-for-agent-ecology-2026-05-06.md](../outputs/complexity-science-for-agent-ecology-2026-05-06.md) - 解释为什么 agent systems 进入工具环境、多主体与长时运行后需要复杂性语言。更新：2026-05-06
